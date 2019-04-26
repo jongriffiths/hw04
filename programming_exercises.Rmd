@@ -9,6 +9,9 @@ output: github_document
 
 ```{r}
 library(tidyverse)
+library(knitr)
+library(dplyr)
+library(ggplot2)
 ```
 
 ## Compute the number of unique values in each column of `iris`
@@ -16,6 +19,11 @@ library(tidyverse)
 ### Using a `for` loop
 
 ```{r}
+
+q1_loop_output <- vector(mode = "double", length = ncol(iris))
+for (i in unique(iris)){
+print(length(unique(i)))
+}
 
 ```
 
