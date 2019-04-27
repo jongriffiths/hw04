@@ -10,14 +10,14 @@ Load necessary libraries
 library(tidyverse)
 ```
 
-    ## -- Attaching packages -------------------------------------------- tidyverse 1.2.1 --
+    ## -- Attaching packages ---------------------------------------------------------------------------------------------------------------------------------------- tidyverse 1.2.1 --
 
     ## v ggplot2 3.1.1       v purrr   0.3.2  
     ## v tibble  2.1.1       v dplyr   0.8.0.1
     ## v tidyr   0.8.3       v stringr 1.4.0  
     ## v readr   1.3.1       v forcats 0.4.0
 
-    ## -- Conflicts ----------------------------------------------- tidyverse_conflicts() --
+    ## -- Conflicts ------------------------------------------------------------------------------------------------------------------------------------------- tidyverse_conflicts() --
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
@@ -94,42 +94,28 @@ Write a function to calculate length of sides in a right-triangle using the Pyth
 
 ``` r
 pythagorean <- function(side1, side2, hypo) {
-  if(side1 == FALSE || side2 == FALSE || hypo == FALSE) {
-    stop("ERROR: Invalid Number of Inputs")
-  }
-  if(side1 == TRUE || side2 == FALSE || hypo == FALSE) {
-    stop("ERROR: Invalid Number of Inputs")
-  }
-  if(side1 == FALSE || side2 == TRUE || hypo == FALSE) {
-    stop("ERROR: Invalid Number of Inputs")
-  }
-  if(side1 == FALSE || side2 == FALSE || hypo == TRUE) {
-    stop("ERROR: Invalid Number of Inputs")
-  }
-  if (side1 == TRUE || side2 == TRUE || hypo == TRUE) {
-    stop("ERROR: Invalid Number of Inputs")
-  }
-  if (side1 != as.numeric()) {
-    stop("ERROR: Invalid Input Type")
-  }
-  if (side2 != as.numeric()) {
-    stop("ERROR: Invalid Input Type")
-  }
-  if (hypo != as.numeric()) {
-    stop("ERROR: Invalid Input Type")
-  }
-if (side1 == TRUE| side2 == TRUE| hypo == FALSE) {
-hypotenuse <- sqrt(side1^2 + side2^2)
-return(hypotenuse)
-} else if (side1 == TRUE | hypo == TRUE | side2 == FALSE) {
-sidetwo <- sqrt(hypo^2 - side1^2)
-return(sidetwo)
-} else if (side2 == TRUE| hypo == TRUE| side1 == FALSE) {
-sideone <- sqrt(hypo^2 - side2^2)
-return(sideone)
-} else{
-return(NULL) 
+
+if (side1 != as.numeric(side1)) {
+  stop("Invalid Input Type")
 }
+if (side2 != as.numeric(side2)) {
+  stop("Invalid Input Type")
+}
+if (hypo != as.numeric(hypo)) {
+  stop("Invalid Input Type")
+}
+  if (side1 == TRUE| side2 == TRUE| hypo == FALSE) {
+    hypotenuse <- sqrt(side1^2 + side2^2)
+    return(hypotenuse)
+  } else if (side1 == TRUE | hypo == TRUE | side2 == FALSE) {
+    sidetwo <- sqrt(hypo^2 - side1^2)
+    return(sidetwo)
+  } else if (side2 == TRUE| hypo == TRUE| side1 == FALSE) {
+    sideone <- sqrt(hypo^2 - side2^2)
+    return(sideone)
+  } else{
+    return("Invalid Number of Inputs") 
+  }
 }
 ```
 

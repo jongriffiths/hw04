@@ -1,7 +1,7 @@
 ---
 title: "Exploring World Bank Data"
-author: "Your name"
-date: "October 18, 2017"
+author: "Jon Griffiths"
+date: "April 29, 2019"
 output: github_document
 ---
 

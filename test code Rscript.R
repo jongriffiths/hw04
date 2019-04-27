@@ -20,20 +20,6 @@ map_int(iris, ~ length(unique(.)))
 
 x <- 1:30
 x
-pythagorean <- function(side1, side2, hypo) {
-  if (side1 == TRUE| side2 == TRUE| hypo == is.null()) {
-    hypotenuse <- sqrt(side1^2 + side2^2)
-    return(hypotenuse)
-  } else if (side1 == TRUE | hypo == TRUE | side2 == is.null()) {
-    sidetwo <- sqrt(hypo^2 - side1^2)
-    return(sidetwo)
-  } else if (side2 == TRUE| hypo == TRUE| side1 == is.null()) {
-    sideone <- sqrt(hypo^2 - side2^2)
-    return(sideone)
-  } else{
-    return(NULL) 
-  }
-}
 
 
  
@@ -91,7 +77,16 @@ return(NULL)
 pythagorean( hypo = 2, side2 = 1, side1 = FALSE)
 
 pythagorean2 <- function(side1, side2, hypo) {
- 
+
+if (side1 != as.numeric(side1)) {
+  stop("Invalid Input Type")
+}
+if (side2 != as.numeric(side2)) {
+  stop("Invalid Input Type")
+}
+if (hypo != as.numeric(hypo)) {
+  stop("Invalid Input Type")
+}
   if (side1 == TRUE| side2 == TRUE| hypo == FALSE) {
     hypotenuse <- sqrt(side1^2 + side2^2)
     return(hypotenuse)
@@ -108,18 +103,10 @@ pythagorean2 <- function(side1, side2, hypo) {
 pythagorean2( hypo = 2, side2 = 1, side1 = FALSE)
 
 
-pythagorean3 <- function(side1, side2, hypo) {
-  if (side1 == TRUE| side2 == TRUE| hypo == FALSE) {
-    hypotenuse <- sqrt(side1^2 + side2^2)
-    return(hypotenuse)
-    } else if (side1 == TRUE | hypo == TRUE | side2 == FALSE) {
-      sidetwo <- sqrt(hypo^2 - side1^2)
-       return(sidetwo)
-      } else if (side2 == TRUE| hypo == TRUE| side1 == FALSE) {
-        sideone <- sqrt(hypo^2 - side2^2)
-         return(sideone)
-       } else{
-          return(NULL) 
-          }
-}
-pythagorean3(side1 = 1, hypo = 2, side2 = FALSE)
+
+
+#Part 2 
+practice <- read_csv("C:/Users/User/Documents/hw04-jg/data_world_bank/API_AGO_DS2_en_csv_v2.csv", col_names = TRUE)
+view(practice)
+
+getwd()
