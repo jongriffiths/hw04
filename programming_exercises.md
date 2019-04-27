@@ -1,7 +1,7 @@
 Programming Exercises
 ================
-Your name
-October 18, 2017
+Jon Griffiths
+April 26, 2019
 
 Load necessary libraries
 ------------------------
@@ -10,14 +10,14 @@ Load necessary libraries
 library(tidyverse)
 ```
 
-    ## -- Attaching packages ------------------------------------------------------------------------ tidyverse 1.2.1 --
+    ## -- Attaching packages -------------------------------------------- tidyverse 1.2.1 --
 
     ## v ggplot2 3.1.1       v purrr   0.3.2  
     ## v tibble  2.1.1       v dplyr   0.8.0.1
     ## v tidyr   0.8.3       v stringr 1.4.0  
     ## v readr   1.3.1       v forcats 0.4.0
 
-    ## -- Conflicts --------------------------------------------------------------------------- tidyverse_conflicts() --
+    ## -- Conflicts ----------------------------------------------- tidyverse_conflicts() --
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
@@ -25,6 +25,8 @@ library(tidyverse)
 library(knitr)
 library(dplyr)
 library(ggplot2)
+library(purrr)
+library(repurrrsive)
 ```
 
 Compute the number of unique values in each column of `iris`
@@ -47,6 +49,13 @@ print(length(unique(i)))
 
 ### Using a `map` function
 
+``` r
+map_int(iris, ~ length(unique(.)))
+```
+
+    ## Sepal.Length  Sepal.Width Petal.Length  Petal.Width      Species 
+    ##           35           23           43           22            3
+
 Calculate the square of each element in vector `x`
 --------------------------------------------------
 
@@ -60,10 +69,69 @@ x
 
 ### Using a `for` loop
 
+``` r
+q2_sqx <- vector(mode = "double")
+for (i in range(x)) {
+  q2_sqx <- (x^2)
+}
+q2_sqx
+```
+
+    ##  [1]   1   4   9  16  25  36  49  64  81 100 121 144 169 196 225 256 289
+    ## [18] 324 361 400 441 484 529 576 625 676 729 784 841 900
+
 ### Using a `map` function
+
+``` r
+map_dbl(1:30, ~(.)^2)
+```
+
+    ##  [1]   1   4   9  16  25  36  49  64  81 100 121 144 169 196 225 256 289
+    ## [18] 324 361 400 441 484 529 576 625 676 729 784 841 900
 
 Write a function to calculate length of sides in a right-triangle using the Pythagorean Theorem
 -----------------------------------------------------------------------------------------------
+
+``` r
+pythagorean <- function(side1, side2, hypo) {
+  if(side1 == FALSE || side2 == FALSE || hypo == FALSE) {
+    stop("ERROR: Invalid Number of Inputs")
+  }
+  if(side1 == TRUE || side2 == FALSE || hypo == FALSE) {
+    stop("ERROR: Invalid Number of Inputs")
+  }
+  if(side1 == FALSE || side2 == TRUE || hypo == FALSE) {
+    stop("ERROR: Invalid Number of Inputs")
+  }
+  if(side1 == FALSE || side2 == FALSE || hypo == TRUE) {
+    stop("ERROR: Invalid Number of Inputs")
+  }
+  if (side1 == TRUE || side2 == TRUE || hypo == TRUE) {
+    stop("ERROR: Invalid Number of Inputs")
+  }
+  if (side1 != as.numeric()) {
+    stop("ERROR: Invalid Input Type")
+  }
+  if (side2 != as.numeric()) {
+    stop("ERROR: Invalid Input Type")
+  }
+  if (hypo != as.numeric()) {
+    stop("ERROR: Invalid Input Type")
+  }
+if (side1 == TRUE| side2 == TRUE| hypo == FALSE) {
+hypotenuse <- sqrt(side1^2 + side2^2)
+return(hypotenuse)
+} else if (side1 == TRUE | hypo == TRUE | side2 == FALSE) {
+sidetwo <- sqrt(hypo^2 - side1^2)
+return(sidetwo)
+} else if (side2 == TRUE| hypo == TRUE| side1 == FALSE) {
+sideone <- sqrt(hypo^2 - side2^2)
+return(sideone)
+} else{
+return(NULL) 
+}
+}
+```
 
 Session info
 ------------
@@ -82,7 +150,7 @@ devtools::session_info()
     ##  collate  English_United States.1252  
     ##  ctype    English_United States.1252  
     ##  tz       America/Chicago             
-    ##  date     2019-04-26                  
+    ##  date     2019-04-27                  
     ## 
     ## - Packages --------------------------------------------------------------
     ##  package     * version date       lib source        
@@ -133,6 +201,7 @@ devtools::session_info()
     ##  readr       * 1.3.1   2018-12-21 [1] CRAN (R 3.5.2)
     ##  readxl        1.3.1   2019-03-13 [1] CRAN (R 3.5.3)
     ##  remotes       2.0.2   2018-10-30 [1] CRAN (R 3.5.3)
+    ##  repurrrsive * 0.1.0   2017-09-08 [1] CRAN (R 3.5.3)
     ##  rlang         0.3.4   2019-04-07 [1] CRAN (R 3.5.3)
     ##  rmarkdown     1.12    2019-03-14 [1] CRAN (R 3.5.3)
     ##  rprojroot     1.3-2   2018-01-03 [1] CRAN (R 3.5.3)

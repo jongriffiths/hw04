@@ -1,7 +1,7 @@
 ---
 title: "Programming Exercises"
-author: "Your name"
-date: "October 18, 2017"
+author: "Jon Griffiths"
+date: "April 26, 2019"
 output: github_document
 ---
 
@@ -12,6 +12,8 @@ library(tidyverse)
 library(knitr)
 library(dplyr)
 library(ggplot2)
+library(purrr)
+library(repurrrsive)
 ```
 
 ## Compute the number of unique values in each column of `iris`
@@ -31,6 +33,8 @@ print(length(unique(i)))
 
 ```{r}
 
+map_int(iris, ~ length(unique(.)))
+
 ```
 
 ## Calculate the square of each element in vector `x`
@@ -38,24 +42,68 @@ print(length(unique(i)))
 ```{r}
 x <- 1:30
 x
+
+
 ```
 
 ### Using a `for` loop
 
 ```{r}
-
+q2_sqx <- vector(mode = "double")
+for (i in range(x)) {
+  q2_sqx <- (x^2)
+}
+q2_sqx
 ```
 
 ### Using a `map` function
 
 ```{r}
+map_dbl(1:30, ~(.)^2)
 
 ```
 
 ## Write a function to calculate length of sides in a right-triangle using the Pythagorean Theorem
 
 ```{r}
-
+pythagorean <- function(side1, side2, hypo) {
+  if(side1 == FALSE || side2 == FALSE || hypo == FALSE) {
+    stop("ERROR: Invalid Number of Inputs")
+  }
+  if(side1 == TRUE || side2 == FALSE || hypo == FALSE) {
+    stop("ERROR: Invalid Number of Inputs")
+  }
+  if(side1 == FALSE || side2 == TRUE || hypo == FALSE) {
+    stop("ERROR: Invalid Number of Inputs")
+  }
+  if(side1 == FALSE || side2 == FALSE || hypo == TRUE) {
+    stop("ERROR: Invalid Number of Inputs")
+  }
+  if (side1 == TRUE || side2 == TRUE || hypo == TRUE) {
+    stop("ERROR: Invalid Number of Inputs")
+  }
+  if (side1 != as.numeric()) {
+    stop("ERROR: Invalid Input Type")
+  }
+  if (side2 != as.numeric()) {
+    stop("ERROR: Invalid Input Type")
+  }
+  if (hypo != as.numeric()) {
+    stop("ERROR: Invalid Input Type")
+  }
+if (side1 == TRUE| side2 == TRUE| hypo == FALSE) {
+hypotenuse <- sqrt(side1^2 + side2^2)
+return(hypotenuse)
+} else if (side1 == TRUE | hypo == TRUE | side2 == FALSE) {
+sidetwo <- sqrt(hypo^2 - side1^2)
+return(sidetwo)
+} else if (side2 == TRUE| hypo == TRUE| side1 == FALSE) {
+sideone <- sqrt(hypo^2 - side2^2)
+return(sideone)
+} else{
+return(NULL) 
+}
+}
 ```
 
 ## Session info
