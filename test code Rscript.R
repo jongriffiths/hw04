@@ -4,6 +4,7 @@ library(ggplot2)
 library(dplyr)
 library(purrr)
 library(repurrrsive)
+library(stats)
 
 # Question 1
 data("iris")
@@ -106,7 +107,57 @@ pythagorean2( hypo = 2, side2 = 1, side1 = FALSE)
 
 
 #Part 2 
-practice <- read_csv("C:/Users/User/Documents/hw04-jg/data_world_bank/API_AGO_DS2_en_csv_v2.csv", col_names = TRUE)
-view(practice)
+#read files and skip first 4 rows
+import_wb_data <- function(file) { 
+  
+  # Read *.csv files, skipping rows 1:4
+  read_csv(file, skip = 4) %>% 
+    
+    select(-"Indicator Code", -X62) %>%
+    rename(country = "Country Name",
+           country_code = "Country Code",
+           variable = "Indicator Name"
+    ) %>%
+    
+    
+    gather(key = "year", 
+           value = "value", c("1960":"2016")) %>% 
+    
+    spread(key = variable, 
+           value = "value") %>%
+    
+    rename(inc_per_capita = "Adjusted net national income per capita (current US$)",
+           female_households = "Female headed households (% of households with a female head)",
+           out_of_school_female = "Adolescents out of school, female (% of female lower secondary school age)",
+           out_of_school_male = "Adolescents out of school, male (% of male lower secondary school age)",
+           safety_net = "Adequacy of social safety net programs (% of total welfare of beneficiary households)") %>%
+    select(country, country_code, inc_per_capita, female_households, out_of_school_female, out_of_school_male, safety_net)
+}
 
-getwd()
+allcountries <- list.files(path = "data_world_bank", pattern = "*.csv", full.names = TRUE)
+
+wb_data <- vector(mode = "list", length(allcountries))
+for(i in seq_along(allcountries)){
+  wb_data[[i]] <- import_wb_data(allcountries[[i]])
+}
+
+wb_data <- bind_rows(wb_data)
+wb_data
+
+
+#Analysis
+#Out of School Female Variance
+out_of_school_fe_variance = var( x = wb_data$out_of_school_female, use = "complete.obs")
+(out_of_school_fe_variance)
+
+#Out of School Male Variance
+out_of_school_ma_variance = var( x = wb_data$out_of_school_male, use = "complete.obs")
+(out_of_school_ma_variance)
+
+#Out of School Covariance
+cov(x = wb_data$out_of_school_male, y = wb_data$out_of_school_female, use = "complete.obs",
+    method = c("pearson"))
+
+#Out of School Correlation
+cor(x = wb_data$out_of_school_male, y = wb_data$out_of_school_female, use = "complete.obs",
+    method = c("pearson"))
