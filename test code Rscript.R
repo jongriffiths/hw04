@@ -107,31 +107,30 @@ pythagorean2( hypo = 2, side2 = 1, side1 = FALSE)
 
 
 #Part 2 
-#read files and skip first 4 rows
+#read files, skip first 4 rows, and edit data to increase ease of use
 import_wb_data <- function(file) { 
-  
-  # Read *.csv files, skipping rows 1:4
   read_csv(file, skip = 4) %>% 
-    
     select(-"Indicator Code", -X62) %>%
     rename(country = "Country Name",
            country_code = "Country Code",
-           variable = "Indicator Name"
+           indicator = "Indicator Name"
     ) %>%
     
-    
+  #reposition variables for analysis  
     gather(key = "year", 
            value = "value", c("1960":"2016")) %>% 
     
-    spread(key = variable, 
+    spread(key = indicator, 
            value = "value") %>%
     
+    #rename the variables I will be using
     rename(inc_per_capita = "Adjusted net national income per capita (current US$)",
            female_households = "Female headed households (% of households with a female head)",
            out_of_school_female = "Adolescents out of school, female (% of female lower secondary school age)",
-           out_of_school_male = "Adolescents out of school, male (% of male lower secondary school age)",
-           safety_net = "Adequacy of social safety net programs (% of total welfare of beneficiary households)") %>%
-    select(country, country_code, inc_per_capita, female_households, out_of_school_female, out_of_school_male, safety_net)
+           out_of_school_male = "Adolescents out of school, male (% of male lower secondary school age)") %>%
+    
+    #Remove unnecessary variables
+    select(country, country_code, inc_per_capita, female_households, out_of_school_female, out_of_school_male)
 }
 
 allcountries <- list.files(path = "data_world_bank", pattern = "*.csv", full.names = TRUE)
@@ -155,9 +154,21 @@ out_of_school_ma_variance = var( x = wb_data$out_of_school_male, use = "complete
 (out_of_school_ma_variance)
 
 #Out of School Covariance
-cov(x = wb_data$out_of_school_male, y = wb_data$out_of_school_female, use = "complete.obs",
+covariance <- cov(x = wb_data$out_of_school_male, y = wb_data$out_of_school_female, use = "complete.obs",
     method = c("pearson"))
+(covariance)
 
 #Out of School Correlation
-cor(x = wb_data$out_of_school_male, y = wb_data$out_of_school_female, use = "complete.obs",
+correlation <- cor(x = wb_data$out_of_school_male, y = wb_data$out_of_school_female, use = "complete.obs",
     method = c("pearson"))
+(correlation)
+
+#Female Out of School Regression
+
+female_regression <- lm(out_of_school_female ~ female_households + inc_per_capita, data = wb_data)
+(summary(female_regression))
+
+
+#Male Regression
+male_regression <- lm(out_of_school_male ~ female_households + inc_per_capita, data = wb_data)
+(summary(male_regression))

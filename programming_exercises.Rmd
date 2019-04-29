@@ -1,7 +1,7 @@
 ---
 title: "Programming Exercises"
 author: "Jon Griffiths"
-date: "April 26, 2019"
+date: "April 29, 2019"
 output: github_document
 ---
 
@@ -42,8 +42,6 @@ map_int(iris, ~ length(unique(.)))
 ```{r}
 x <- 1:30
 x
-
-
 ```
 
 ### Using a `for` loop
@@ -59,15 +57,22 @@ q2_sqx
 ### Using a `map` function
 
 ```{r}
-map_dbl(1:30, ~(.)^2)
+square_function <- function(x){
+  x^2
+}
+x %>%
+map_dbl(square_function)
 
 ```
 
 ## Write a function to calculate length of sides in a right-triangle using the Pythagorean Theorem
 
 ```{r}
+#defines the 3 sides of the triangle
 pythagorean <- function(side1, side2, hypo) {
 
+#stops the function if any of the sides are not imputed as numeric
+  
 if (side1 != as.numeric(side1)) {
   stop("Invalid Input Type")
 }
@@ -77,6 +82,7 @@ if (side2 != as.numeric(side2)) {
 if (hypo != as.numeric(hypo)) {
   stop("Invalid Input Type")
 }
+  #indicates what sides must be present and what is returned under those circumstances
   if (side1 == TRUE| side2 == TRUE| hypo == FALSE) {
     hypotenuse <- sqrt(side1^2 + side2^2)
     return(hypotenuse)
@@ -87,6 +93,7 @@ if (hypo != as.numeric(hypo)) {
     sideone <- sqrt(hypo^2 - side2^2)
     return(sideone)
   } else{
+    #This is what is returned if there is a different number of inputs than specified above
     return("Invalid Number of Inputs") 
   }
 }

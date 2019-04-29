@@ -1,7 +1,7 @@
 Programming Exercises
 ================
 Jon Griffiths
-April 26, 2019
+April 29, 2019
 
 Load necessary libraries
 ------------------------
@@ -10,14 +10,14 @@ Load necessary libraries
 library(tidyverse)
 ```
 
-    ## -- Attaching packages ---------------------------------------------------------------------------------------------------------------------------------------- tidyverse 1.2.1 --
+    ## -- Attaching packages -------------------------------------------- tidyverse 1.2.1 --
 
     ## v ggplot2 3.1.1       v purrr   0.3.2  
     ## v tibble  2.1.1       v dplyr   0.8.0.1
     ## v tidyr   0.8.3       v stringr 1.4.0  
     ## v readr   1.3.1       v forcats 0.4.0
 
-    ## -- Conflicts ------------------------------------------------------------------------------------------------------------------------------------------- tidyverse_conflicts() --
+    ## -- Conflicts ----------------------------------------------- tidyverse_conflicts() --
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
@@ -83,7 +83,11 @@ q2_sqx
 ### Using a `map` function
 
 ``` r
-map_dbl(1:30, ~(.)^2)
+square_function <- function(x){
+  x^2
+}
+x %>%
+map_dbl(square_function)
 ```
 
     ##  [1]   1   4   9  16  25  36  49  64  81 100 121 144 169 196 225 256 289
@@ -93,8 +97,11 @@ Write a function to calculate length of sides in a right-triangle using the Pyth
 -----------------------------------------------------------------------------------------------
 
 ``` r
+#defines the 3 sides of the triangle
 pythagorean <- function(side1, side2, hypo) {
 
+#stops the function if any of the sides are not imputed as numeric
+  
 if (side1 != as.numeric(side1)) {
   stop("Invalid Input Type")
 }
@@ -104,6 +111,7 @@ if (side2 != as.numeric(side2)) {
 if (hypo != as.numeric(hypo)) {
   stop("Invalid Input Type")
 }
+  #indicates what sides must be present and what is returned under those circumstances
   if (side1 == TRUE| side2 == TRUE| hypo == FALSE) {
     hypotenuse <- sqrt(side1^2 + side2^2)
     return(hypotenuse)
@@ -114,6 +122,7 @@ if (hypo != as.numeric(hypo)) {
     sideone <- sqrt(hypo^2 - side2^2)
     return(sideone)
   } else{
+    #This is what is returned if there is a different number of inputs than specified above
     return("Invalid Number of Inputs") 
   }
 }
@@ -136,7 +145,7 @@ devtools::session_info()
     ##  collate  English_United States.1252  
     ##  ctype    English_United States.1252  
     ##  tz       America/Chicago             
-    ##  date     2019-04-27                  
+    ##  date     2019-04-28                  
     ## 
     ## - Packages --------------------------------------------------------------
     ##  package     * version date       lib source        
