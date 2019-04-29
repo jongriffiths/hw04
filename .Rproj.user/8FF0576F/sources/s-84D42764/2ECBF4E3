@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1556400109299.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2040465907",
+    "id" : "2ECBF4E3",
+    "lastKnownWriteTime" : 1556496452,
+    "last_content_update" : 1556496452420,
+    "path" : "~/hw04-jg/world_bank.Rmd",
+    "project_path" : "world_bank.Rmd",
+    "properties" : {
+        "cursorPosition" : "111,26",
+        "scrollLine" : "95"
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

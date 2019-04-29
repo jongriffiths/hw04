@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1556392189888.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "2E4D537E",
+    "lastKnownWriteTime" : 1556134905,
+    "last_content_update" : 1556134905,
+    "path" : "~/CFSS/Lecture 7.Rmd",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "14,11",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

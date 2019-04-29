@@ -1,0 +1,50 @@
+---
+title: "Lecture 7 - April 24"
+output: html_document
+---
+
+##Atomic Vectors
+```{r}
+vect <- seq(from = 1, to = 10)
+#could also do this as vect <- 1:10
+
+#Keep 1 through 4 and 7
+vect[c(seq(1,4), 7)]
+
+#Keep 1 through 8 and 10
+vect[c(-9)]
+
+#Keep all elements greater than 5
+vect[vect>5]
+
+#keep all elements divisible by 3 
+#%% = remainder
+vect[vect %% 3 == 0]
+
+
+``` 
+
+##List Vectors
+str will tell you the structure
+
+Lists can store different types of vectors
+
+With double brackets you can isolate the element by column and row as atomic vector
+one set of brackets gives you back a list
+
+```{r}
+x <- list(a = c(1, 2, 3), b = "a string", c = pi, d = list(-1, -5))
+str(x)
+
+x[[1]]
+
+str(x["c"])
+
+x[c(1, 3 )]
+```
+
+##for loop
+
+mode - sets what type of vector it will be
+
+

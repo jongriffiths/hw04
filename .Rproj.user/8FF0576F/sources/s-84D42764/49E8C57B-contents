@@ -1,0 +1,25 @@
+setwd("/Users/User/Documents/RSets")
+d2 = read.csv("Study1.csv")
+
+d2$date = paste('2015', d2$month, d2$date)
+d2$date = as.Date(d2$date, format = '%Y %B %d')
+
+outbreakDate = as.Date('2015 September 30', format='%Y %B %d')
+d2$beforeOutbreak = d2$date <= outbreakDate
+
+
+Sep1 = as.Date('2015-09-01', format = '%Y-%m-%d')
+Sep30 = as.Date('2015-09-30', format = '%Y-%m-%d')
+
+#create vector
+d2$inSep = d2$date >= Sep1 & d2$date <= Sep30
+
+#Sept Reg
+fit1 = lm(VoterIntentionIndex ~ date, data = d2[d2$inSep == TRUE,])
+summary(fit1)
+confint(fit1)
+
+#use starred vectors from week 1 notes- won't work until you add
+fit3 = m(VoterIntentionIndex ~ date, data = d2[d2$inSepRange == TRUE,])
+summary(fit3)
+confint(fit3)

@@ -1,0 +1,43 @@
+---
+title: "Lecture 6 - April 22"
+output: html_document
+---
+
+
+Function 
+-everything in {} is the body of the function
+
+-slide 11 fuction rescales the smallest value to zero
+
+-anything returned by the function is not stored unless you turn into an object 
+
+-don't need a piped operator in the function.
+
+
+```{r}
+sum_of_squares <- function(a,b){
+  sum_squares <- (a^2 + b^2)
+  return(sum_squares)
+}
+
+sum_of_squares(4, 4)
+```
+
+
+
+- if function stops after it finds the first value that is true
+-if_else allows you to test all data
+-ifelse - base R
+-if_else - dplyr
+-if_else - more robust and less prone to errors, use it instead of ifelse
+
+
+
+```{r}
+fizzbuzz <- function(a){
+  
+}
+```
+
+want to test for fizzbuzz first because it is the most selective condiditon
+

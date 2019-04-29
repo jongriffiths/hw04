@@ -1,0 +1,50 @@
+library(Hmisc)
+library(car)
+library(heplots)
+
+setwd("/Users/User/Documents/RSets")
+IA = spss.get("Gino.sav", use.value.labels = TRUE) #use.val... tells function to convert variables with value labels to same in R
+View(IA)
+
+#general.type is the type of event
+
+IAnew = IA[which(IA$failed.essay == '0'),] #code for excluding participants who failed attention test
+View(IAnew)
+
+#need to change variables from numeric to categorical
+IAnew$authenticity = factor(IAnew$authenticity)
+IAnew$general.type = factor(IAnew$general.type)
+View(IAnew)
+
+#ANOVA type I (by default)
+fit = aov(alienation ~ authenticity*general.type, data = IAnew)
+summary(fit)
+
+#ANOVA using car package
+
+mod = lm(alienation ~ authenticity*general.type, data = IAnew, 
+         contrasts = list(authenticity=contr.sum, general.type=contr.sum))
+fit = Anova(mod, type=3)
+fit
+etasq(mod) #gives you partial eta squared
+
+
+
+#conf interval for ANOVA
+t.test(IAnew$alienation[IAnew$authenticity == 1], conf.int = TRUE)
+t.test(IAnew$alienation[IAnew$authenticity == 0], conf.int = TRUE)
+
+#Type III without car package
+options(contrasts = c("contr.sum", "contr.poly"))
+fit0 = aov(alienation ~ authenticity*general.type, data = IAnew)
+drop1(fit0, ~., test="F")
+
+
+#Impurity and Moral self regard
+
+
+
+fit3 = Anova(lm(impurity ~ authenticity*general.type, data = IAnew, 
+         contrasts = list(authenticity=contr.sum, general.type=contr.sum)), 
+        type=3)
+fit3

@@ -1,0 +1,76 @@
+setwd("/Users/User/Documents/RSets")
+
+
+library(effsize)
+library(ggplot2)
+
+
+#Graph - September A
+d2 = read.csv("Study1.csv")
+
+d2$date = paste('2015', d2$month, d2$date)
+d2$date = as.Date(d2$date, format = '%Y %B %d')
+
+View(d2)
+
+Sep1 = as.Date('2015-09-01', format = '%Y-%m-%d')
+Sep30 = as.Date('2015-09-30', format = '%Y-%m-%d')
+d2$inSep = d2$date >= Sep1 & d2$date <= Sep30
+plot = ggplot(data = d2[d2$inSep == TRUE,], aes(x = date, y = VoterIntentionIndex))+
+  geom_point()+
+  geom_smooth(method = lm)
+plot
+
+
+#Graph - September B
+Sep24 = as.Date('2015-09-24', format = '%Y-%m-%d')
+Sep30 = as.Date('2015-09-30', format = '%Y-%m-%d')
+d2$Sepweek4 = d2$date >= Sep24 & d2$date <= Sep30
+plot = ggplot(data = d2[d2$Sepweek4 == TRUE,], aes(x = date, y = VoterIntentionIndex))+
+  geom_point()+
+  geom_smooth(method = lm)
+plot
+
+
+#Graph - October A
+Oct1 = as.Date('2015-10-01', format = '%Y-%m-%d')
+Oct31 = as.Date('2015-10-31', format = '%Y-%m-%d')
+d2$inOct = d2$date >= Oct1 & d2$date <= Oct31
+plot = ggplot(data = d2[d2$inOct == TRUE,], aes(x = date, y = VoterIntentionIndex))+
+  geom_point()+
+  geom_smooth(method = lm)
+plot
+
+#Graph - October B
+Oct1 = as.Date('2015-10-01', format = '%Y-%m-%d')
+Oct7 = as.Date('2015-10-07', format = '%Y-%m-%d')
+d2$Octweek1 = d2$date >= Oct1 & d2$date <= Oct7
+plot = ggplot(data = d2[d2$Octweek1 == TRUE,], aes(x = date, y = VoterIntentionIndex))+
+  geom_point()+
+  geom_smooth(method = lm)
+plot
+
+
+#Question 3bi
+
+setwd("/Users/User/Documents/RSets")
+Study2 = read.csv("Study2.csv")
+Study2$StateSenateRace = as.character(Study2$StateSenateRace)
+
+exclude = c("Hawaii","Rhode Island")
+d3 = Study2[!(Study2$StateSenateRace %in% exclude),]
+
+View(d3)
+
+t.test(d3$SeptMeanVoterIntentionIndex, d3$OctMeanVoterIntentionIndex, paired = TRUE)
+
+
+#3bii
+t.test(d3$StateSpecificVoterIntentionIndexDifferenceScore[d3$PollingDifferenceInFinalPollInSeptember > 0], +
+         d3$StateSpecificVoterIntentionIndexDifferenceScore[d3$PollingDifferenceInFinalPollInSeptember < 0],var.equal = TRUE)
+
+
+#3biii
+fit = lm(d3$StateSpecificVoterIntentionIndexDifferenceScore ~ d3$PVI + d3$PollingDifferenceInFinalPollInSeptember)
+summary(fit)
+confint(fit)

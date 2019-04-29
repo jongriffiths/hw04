@@ -1,0 +1,81 @@
+library(Hmisc)
+library(car)
+library(heplots)
+library(tidyverse)
+
+setwd("/Users/User/Documents/RSets")
+p1 = spss.get("physics1.sav", use.value.labels = TRUE) 
+View(p1)
+
+
+##3a)
+
+mod1 = lm(mag1 ~ group, data = p1,
+  contrasts = list(group=contr.sum))
+fit1 = Anova(mod1)
+fit1
+
+mod2 = lm(mag2 ~ mag1 + group, data = p1,
+  contrasts = list(group=contr.sum))
+fit2 = Anova(mod2, type=2)
+fit2
+etasq(mod2)
+#would use type 2 since they don't believe there is an interaction effect between first score and group.
+
+t.test(p1$mag2[p1$group == 'action'], p1$mag1[p1$group == 'action'], paired = TRUE)
+
+t.test(p1$mag2[p1$group == 'observation'], p1$mag1[p1$group == 'observation'], paired = TRUE)
+
+
+
+df = subset(p1, select = -c(subject, dir1, dir2, RT1, RT2, dRT, mag.improvement) )
+view(df)
+
+library(reshape2)
+df <- melt(df, id=c("group"))
+view(df)
+
+interaction.plot(df$variable, df$group, df$value)
+
+
+#3b)
+
+p2 = spss.get("physics2.sav", use.value.labels = TRUE) 
+View(p2)
+
+
+mod3 = lm(accuracy.pre ~ group, data = p2,
+  contrasts = list(group=contr.sum))
+fit3 = Anova(mod3)
+fit3
+
+
+
+mod4 = lm(accuracy.post ~ accuracy.pre + group, data = p2,
+          contrasts = list(group=contr.sum))
+fit4 = Anova(mod4, type=2)
+fit4
+etasq(mod4)
+
+mod5 = lm(accuracy.posttest.newVC ~ accuracy.pretest.newVC + group, data = p2,
+          contrasts = list(group=contr.sum))
+fit5 = Anova(mod5, type=2)
+fit5
+etasq(mod5)
+
+mod6 = lm(accuracy.posttest.newNONVC ~ accuracy.pretest.newNONVC + group, data = p2,
+          contrasts = list(group=contr.sum))
+fit6 = Anova(mod6, type=2)
+fit6
+etasq(mod6)
+
+
+df2 = subset(p2, select = c(group, accuracy.pre, accuracy.post) )
+view(df2)
+
+library(reshape2)
+df2 <- melt(df2, id=c("group"))
+view(df2)
+
+interaction.plot(df2$variable, df2$group, df2$value)
+

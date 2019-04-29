@@ -1,0 +1,130 @@
+---
+title: "Exploring World Bank Data"
+author: "Jon Griffiths"
+date: "April 29, 2019"
+output: github_document
+---
+
+## Load necessary libraries
+
+```{r}
+library(tidyverse)
+library(knitr)
+library(ggplot2)
+library(dplyr)
+library(purrr)
+library(repurrrsive)
+library(stats)
+```
+
+## Write a function to import the data files
+
+```{r}
+
+#read files, skip first 4 rows, and edit data to increase ease of use
+import_wb_data <- function(file) { 
+  read_csv(file, skip = 4) %>% 
+    select(-"Indicator Code", -X62) %>%
+    rename(country = "Country Name",
+           country_code = "Country Code",
+           indicator = "Indicator Name"
+    ) %>%
+    
+  #reposition variables for analysis  
+    gather(key = "year", 
+           value = "value", c("1960":"2016")) %>% 
+    
+    spread(key = indicator, 
+           value = "value") %>%
+    
+    #rename the variables I will be using
+    rename(inc_per_capita = "Adjusted net national income per capita (current US$)",
+           female_households = "Female headed households (% of households with a female head)",
+           out_of_school_female = "Adolescents out of school, female (% of female lower secondary school age)",
+           out_of_school_male = "Adolescents out of school, male (% of male lower secondary school age)") %>%
+    
+    #Remove unnecessary variables
+    select(country, country_code, inc_per_capita, female_households, out_of_school_female, out_of_school_male)
+}
+```
+
+## Import the data
+
+```{r}
+allcountries <- list.files(path = "data_world_bank", pattern = "*.csv", full.names = TRUE)
+
+#wb_data = world bank data
+wb_data <- vector(mode = "list", length(allcountries))
+for(i in seq_along(allcountries)){
+  wb_data[[i]] <- import_wb_data(allcountries[[i]])
+}
+
+wb_data <- bind_rows(wb_data)
+wb_data
+```
+
+## Explore the data
+###Out of School Female Variance
+```{r}
+out_of_school_fe_variance = var( x = wb_data$out_of_school_female, use = "complete.obs")
+(out_of_school_fe_variance)
+```
+
+###Out of School Male Variance
+```{r}
+out_of_school_ma_variance = var( x = wb_data$out_of_school_male, use = "complete.obs")
+(out_of_school_ma_variance)
+
+```
+
+
+
+###Out of School Covariance
+```{r}
+covariance <- cov(x = wb_data$out_of_school_male, y = wb_data$out_of_school_female, use = "complete.obs",
+    method = c("pearson"))
+(covariance)
+```
+
+
+
+###Out of School Correlation
+```{r}
+correlation <- cor(x = wb_data$out_of_school_male, y = wb_data$out_of_school_female, use = "complete.obs",
+    method = c("pearson"))
+(correlation)
+```
+
+
+
+###Female Out of School Regression
+```{r}
+female_regression <- lm(out_of_school_female ~ female_households + inc_per_capita, data = wb_data)
+(summary(female_regression))
+
+```
+
+
+
+###Male Out of School Regression
+```{r}
+male_regression <- lm(out_of_school_male ~ female_households + inc_per_capita, data = wb_data)
+(summary(male_regression))
+```
+
+
+```
+
+For this assignment, I decided to look at the rates at which male and female adolescents do not attend school. I first examined the variances in these data. The overall variance is larger for females than it is for males. This means that there is a larger spread amongst the data between countries with high female enrollment and low female enrollment. 
+
+I also examined the covariance and correlation between male and female youth unenrollment. As expected, there was a high degree of correlation between the variables. Correlation falls on a scale of 0 to 1 where 0 is no correlation and 1 is perfect correlation. Between the unenrollment of the two sexes, the correlation coefficient is r = .93, which is close to a perfect correlation. This means, as is to be expected, countries with high male unenrollment also have high female unenrollment and vice versa. 
+
+Since the data were replete with missing values, the chosen variables were not conducive to graphical interpretation. As such, I employ two multiple regression models which have each sex's respective unenrollment rate as the outcome variables. These variables are measured as a function the percent of a nation's households that are headed by women and the income per capita. While the percent of women-headed households and income per capita appear to have a smaller effect on the rate which boys attend school, the results from both models are statistically insignificant at a p < .05. As such, I cannot draw any substantive conclusions about the relationships between the variables.
+
+## Session info
+
+```{r}
+devtools::session_info()
+```
+
+

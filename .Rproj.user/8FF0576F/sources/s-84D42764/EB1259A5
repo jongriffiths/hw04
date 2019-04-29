@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1556301115601.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2022193348",
+    "id" : "EB1259A5",
+    "lastKnownWriteTime" : 1556496759,
+    "last_content_update" : 1556496759652,
+    "path" : "~/hw04-jg/test code Rscript.R",
+    "project_path" : "test code Rscript.R",
+    "properties" : {
+        "cursorPosition" : "147,0",
+        "scrollLine" : "140"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
